@@ -1403,13 +1403,12 @@ html {
   position: absolute;
   left: 0;
   padding-top: 54px;
+  display: none;
   width: min(1240px, 100%);
 }
 .dropdown__inner {
-  --inner-max-height: min(582px, 100vh - 128px);
   --inner-padding: 30px;
   padding: var(--inner-padding);
-  max-height: var(--inner-max-height);
   position: relative;
   border-radius: 20px;
   background: var(--dropdown-bg-color);
@@ -1426,11 +1425,12 @@ html {
 }
 
 .top-menu {
-  max-height: calc(var(--inner-max-height) - var(--inner-padding) * 2);
+  --main-column-width: 292px;
+  position: relative;
 }
 .top-menu__main {
-  height: inherit;
-  width: 292px;
+  height: calc(min(582px, 100vh - 128px) - var(--inner-padding) * 2);
+  width: var(--main-column-width);
   border-right: 1px solid var(--top-menu-bg-color);
   overflow-y: auto;
 }
@@ -1439,11 +1439,19 @@ html {
   display: flex;
   gap: 14px;
 }
+.menu-columns + .menu-columns {
+  margin-top: 30px;
+}
 .menu-columns__icon {
   flex-shrink: 0;
   width: 36px;
   height: 36px;
   position: relative;
+}
+@media (max-width: 1199.98px) {
+  .menu-columns__icon {
+    display: none;
+  }
 }
 .menu-columns__content {
   flex: 1;
@@ -1451,7 +1459,7 @@ html {
 .menu-columns__icon-1 {
   width: 30px;
   height: 30px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .menu-columns__icon-2 {
   position: absolute;
@@ -1459,7 +1467,7 @@ html {
   bottom: 0;
   width: 24px;
   height: 24px;
-  object-fit: cover;
+  object-fit: contain;
   filter: var(--menu-columns-icon-color);
 }
 .menu-columns__heading {
@@ -1473,14 +1481,26 @@ html {
 }
 .menu-columns__link {
   display: block;
-  padding: 7px 0;
+  padding: 6px 0;
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 142.857%;
 }
-.menu-columns__link:hover {
+.menu-columns__item--active > .menu-columns__link, .menu-columns__item:hover > .menu-columns__link {
   color: #0071dc;
   font-weight: 500;
+}
+.menu-columns__item--active .sub-menu {
+  display: grid;
+}
+
+.sub-menu {
+  position: absolute;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  inset: 0 0 0 var(--main-column-width);
+  gap: var(--inner-padding);
+  padding-left: var(--inner-padding);
 }
 
 /*# sourceMappingURL=main.css.map */

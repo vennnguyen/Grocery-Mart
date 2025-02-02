@@ -1,17 +1,16 @@
+@use "../abstracts";
 .dropdown {
   position: absolute;
   left: 0;
   padding-top: 54px;
-  //   display: none;
+  display: none;
   width: min(1240px, 100%);
 
   //   margin-top: 20px;
 
   &__inner {
-    --inner-max-height: min(582px, 100vh - 128px);
     --inner-padding: 30px;
     padding: var(--inner-padding);
-    max-height: var(--inner-max-height);
     position: relative;
     border-radius: 20px;
     background: var(--dropdown-bg-color);
@@ -29,11 +28,11 @@
 }
 
 .top-menu {
-  max-height: calc(var(--inner-max-height) - var(--inner-padding) * 2);
-
+  --main-column-width: 292px;
+  position: relative;
   &__main {
-    height: inherit;
-    width: 292px;
+    height: calc(min(582px, 100vh - 128px) - var(--inner-padding) * 2);
+    width: var(--main-column-width);
     border-right: 1px solid var(--top-menu-bg-color);
     overflow-y: auto;
   }
@@ -42,11 +41,17 @@
 .menu-columns {
   display: flex;
   gap: 14px;
+  + .menu-columns {
+    margin-top: 30px;
+  }
   &__icon {
     flex-shrink: 0;
     width: 36px;
     height: 36px;
     position: relative;
+    @include abstracts.breakpoint(xl) {
+      display: none;
+    }
   }
 
   &__content {
@@ -55,7 +60,7 @@
   &__icon-1 {
     width: 30px;
     height: 30px;
-    object-fit: cover;
+    object-fit: contain;
   }
   &__icon-2 {
     position: absolute;
@@ -63,7 +68,7 @@
     bottom: 0;
     width: 24px;
     height: 24px;
-    object-fit: cover;
+    object-fit: contain;
     filter: var(--menu-columns-icon-color);
   }
   &__heading {
@@ -77,13 +82,29 @@
   }
   &__link {
     display: block;
-    padding: 7px 0;
+    padding: 6px 0;
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 142.857%;
-    &:hover {
-      color: #0071dc;
-      font-weight: 500;
+  }
+  &__item--active > &__link,
+  &__item:hover > &__link {
+    color: #0071dc;
+    font-weight: 500;
+  }
+  &__item {
+    &--active .sub-menu {
+      display: grid;
     }
   }
+}
+
+.sub-menu {
+  position: absolute;
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  inset: 0 0 0 var(--main-column-width);
+  gap: var(--inner-padding);
+  padding-left: var(--inner-padding);
+  // overflow-y: auto;
 }
